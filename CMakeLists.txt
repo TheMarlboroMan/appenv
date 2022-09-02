@@ -39,25 +39,25 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/lib")
 #Library building and installation.
 
 if(${BUILD_SHARED})
-	add_library(appdir_shared SHARED ${SOURCE})
-	set_target_properties(appdir_shared PROPERTIES OUTPUT_NAME appdir)
-	install(TARGETS appdir_shared DESTINATION lib)
+	add_library(appenv_shared SHARED ${SOURCE})
+	set_target_properties(appenv_shared PROPERTIES OUTPUT_NAME appenv)
+	install(TARGETS appenv_shared DESTINATION lib)
 endif()
 
 if(${BUILD_STATIC})
-	add_library(appdir_static STATIC ${SOURCE})
-	set_target_properties(appdir_static PROPERTIES OUTPUT_NAME appdir)
-	install(TARGETS appdir_static DESTINATION lib)
+	add_library(appenv_static STATIC ${SOURCE})
+	set_target_properties(appenv_static PROPERTIES OUTPUT_NAME appenv)
+	install(TARGETS appenv_static DESTINATION lib)
 endif()
 
 install(DIRECTORY include/ DESTINATION include/)
 
 IF(WIN32)
 	if(${BUILD_SHARED)
-		target_compile_definitions(appdir_shared PUBLIC -DWINBUILD)
+		target_compile_definitions(appenv_shared PUBLIC -DWINBUILD)
 	endif()
 	if(${BUILD_STATIC})
-		target_compile_definitions(appdir_static PUBLIC -DWINBUILD)
+		target_compile_definitions(appenv_static PUBLIC -DWINBUILD)
 	endif()
 ENDIF()
 

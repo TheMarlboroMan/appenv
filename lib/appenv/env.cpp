@@ -38,7 +38,7 @@ env::env(
 	exec_dir.append(1, '/');
 
 	user_dir=std::string{getenv("HOME")};
-	user_dir+=_app_name;
+	user_dir+="/"+_app_name;
 	user_dir.append(1, '/');
 }
 
