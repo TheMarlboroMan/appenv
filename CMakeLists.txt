@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.6.0)
 project(appenv)
 
+option(BUILD_EXAMPLES "Build example code" ON)
 option(BUILD_DEBUG "Build a debug release" OFF)
 option(BUILD_SHARED "Build a shared library" ON)
 option(BUILD_STATIC "Build a static library" OFF)
@@ -8,23 +9,30 @@ option(BUILD_STATIC "Build a static library" OFF)
 #library version
 set(MAJOR_VERSION 0)
 set(MINOR_VERSION 0)
-set(PATCH_VERSION 1)
+set(PATCH_VERSION 2)
 
 if(${BUILD_DEBUG})
-	set(CMAKE_BUILD_TYPE Debug)
-	set(BUILD_VERSION "\"-debug\"")
+
+	set(RELEASE_VERSION "debug")
 
 else()
-	set(CMAKE_BUILD_TYPE Release)
-	set(BUILD_VERSION "\"\"")
+
+	set(RELEASE_VERSION "prod")
 endif()
 
-add_definitions(-DMAJOR_VERSION=${MAJOR_VERSION})
-add_definitions(-DMINOR_VERSION=${MINOR_VERSION})
-add_definitions(-DPATCH_VERSION=${PATCH_VERSION})
-add_definitions(-DBUILD_VERSION=${BUILD_VERSION})
+if(${CMAKE_VERSION} VERSION_LESS "3.22.0")
 
-message("will build version ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${BUILD_VERSION}")
+	add_definitions(-DMAJOR_VERSION=${MAJOR_VERSION})
+	add_definitions(-DMINOR_VERSION=${MINOR_VERSION})
+	add_definitions(-DPATCH_VERSION=${PATCH_VERSION})
+	add_definitions(-DRELEASE_VERSION=\"${RELEASE_VERSION}\")
+else()
+
+	add_compile_definitions(MAJOR_VERSION=${MAJOR_VERSION})
+	add_compile_definitions(MINOR_VERSION=${MINOR_VERSION})
+	add_compile_definitions(PATCH_VERSION=${PATCH_VERSION})
+	add_compile_definitions(RELEASE_VERSION=\"${RELEASE_VERSION}\")
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -37,17 +45,32 @@ set(SOURCE "")
 add_subdirectory("${PROJECT_SOURCE_DIR}/lib")
 
 #Library building and installation.
+if(${BUILD_DEBUG})
+
+	set(CMAKE_BUILD_TYPE Debug)
+	set(LIB_FILENAME "appenv_debug")
+else()
+
+	set(CMAKE_BUILD_TYPE Release)
+	set(LIB_FILENAME "appenv")
+endif()
 
 if(${BUILD_SHARED})
 	add_library(appenv_shared SHARED ${SOURCE})
-	set_target_properties(appenv_shared PROPERTIES OUTPUT_NAME appenv)
+	set_target_properties(appenv_shared PROPERTIES OUTPUT_NAME ${LIB_FILENAME})
+	target_compile_definitions(appenv_shared PUBLIC "-DLIB_VERSION=\"shared\"")
 	install(TARGETS appenv_shared DESTINATION lib)
+
+	message("will build ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${RELEASE_VERSION}-shared")
 endif()
 
 if(${BUILD_STATIC})
 	add_library(appenv_static STATIC ${SOURCE})
-	set_target_properties(appenv_static PROPERTIES OUTPUT_NAME appenv)
+	set_target_properties(appenv_static PROPERTIES OUTPUT_NAME ${LIB_FILENAME})
+	target_compile_definitions(appenv_static PUBLIC "-DLIB_VERSION=\"static\"")
 	install(TARGETS appenv_static DESTINATION lib)
+
+	message("will build ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-${RELEASE_VERSION}-static")
 endif()
 
 install(DIRECTORY include/ DESTINATION include/)

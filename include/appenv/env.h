@@ -5,8 +5,6 @@
 
 namespace appenv {
 
-std::string get_lib_version();
-
 class env {
 
 	public:

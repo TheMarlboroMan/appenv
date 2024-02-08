@@ -7,13 +7,6 @@
 
 using namespace appenv;
 
-std::string appenv::get_lib_version() {
-
-	std::stringstream ss;
-	ss<<MAJOR_VERSION<<"."<<MINOR_VERSION<<"."<<PATCH_VERSION<<"-"<<BUILD_VERSION;
-	return ss.str();
-}
-
 env::env(
 	const std::string& _app_name,
 	lm::logger* _logger

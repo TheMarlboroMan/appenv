@@ -1,4 +1,3 @@
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -11,6 +10,10 @@ Changes will be documented under Added, Changed, Deprecated, Removed, Fixed or S
 
 ## Unreleased
 ### Pending
+
+## [v0.0.2]: 2024/02/08 
+### Changed
+- Updated build system
 
 ## [v0.0.1]: 2022/09/02 
 ### Added
