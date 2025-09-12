@@ -38,6 +38,7 @@ env::env(
 void env::appimagefy() {
 
 	exec_dir+="/../share/";
+	lm::log(*logger).info()<<"appimagefying, exec_dir is now "<<exec_dir<<std::endl;
 }
 
 void env::create_user_dir() const {
