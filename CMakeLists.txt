@@ -76,7 +76,7 @@ endif()
 install(DIRECTORY include/ DESTINATION include/)
 
 IF(WIN32)
-	if(${BUILD_SHARED)
+	if(${BUILD_SHARED})
 		target_compile_definitions(appenv_shared PUBLIC -DWINBUILD)
 	endif()
 	if(${BUILD_STATIC})
