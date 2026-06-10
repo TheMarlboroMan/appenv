@@ -12,7 +12,11 @@
 using namespace appenv;
 
 env::env(
+#ifndef WINBUILD
 	const std::string& _app_name,
+#else
+	const std::string&,
+#endif
 	lm::logger* _logger
 ):
 	logger{_logger}
