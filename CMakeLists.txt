@@ -76,6 +76,11 @@ endif()
 install(DIRECTORY include/ DESTINATION include/)
 
 IF(WIN32)
+
+	include_directories(../log/include)
+	include_directories(../tools/include)
+	add_compile_definitions(WINBUILD=1)
+
 	if(${BUILD_SHARED})
 		target_compile_definitions(appenv_shared PUBLIC -DWINBUILD)
 	endif()

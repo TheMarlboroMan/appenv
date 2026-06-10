@@ -5,6 +5,10 @@
 #include <stdexcept>
 #include <sstream>
 
+#ifdef WINBUILD
+#include <filesystem>
+#endif
+
 using namespace appenv;
 
 env::env(
@@ -13,6 +17,8 @@ env::env(
 ):
 	logger{_logger}
 {
+
+#ifndef WINBUILD
 
 	std::array<char, 1024> buff;
 
@@ -33,6 +39,14 @@ env::env(
 	user_dir=std::string{getenv("HOME")};
 	user_dir+="/"+_app_name;
 	user_dir.append(1, '/');
+
+#else
+
+	auto curpath=std::filesystem::current_path();
+	exec_dir=curpath.string();
+	user_dir=exec_dir;
+
+#endif
 }
 
 void env::appimagefy() {
