@@ -94,14 +94,14 @@ IF(WIN32)
 		#in windows we cannot allow unresolved symbols...
 		add_library(lm SHARED IMPORTED)
 		set_target_properties(lm PROPERTIES 
-			IMPORTED_IMPLIB "../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll.a"
-			IMPORTED_LOCATION "../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll"
+			IMPORTED_IMPLIB "../../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll.a"
+			IMPORTED_LOCATION "../../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll"
 		)
 
 		add_library(tools SHARED IMPORTED)
 		set_target_properties(tools PROPERTIES 
-			IMPORTED_IMPLIB "../log/build/libtools${IMPORTED_LIB_POSTFIX}.dll.a"
-			IMPORTED_LOCATION "../log/build/libtools${IMPORTED_LIB_POSTFIX}.dll"
+			IMPORTED_IMPLIB "../../tools/build/libtools${IMPORTED_LIB_POSTFIX}.dll.a"
+			IMPORTED_LOCATION "../../tools/build/libtools${IMPORTED_LIB_POSTFIX}.dll"
 		)
 
 		target_link_libraries(appenv_shared PRIVATE lm)
