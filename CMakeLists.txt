@@ -82,8 +82,32 @@ IF(WIN32)
 	add_compile_definitions(WINBUILD=1)
 
 	if(${BUILD_SHARED})
+
 		target_compile_definitions(appenv_shared PUBLIC -DWINBUILD)
+
+		set(IMPORTED_LIB_POSTFIX "")
+		if(${BUILD_DEBUG})
+
+			set(IMPORTED_LIB_POSTFIX "_debug")
+		endif()
+
+		#in windows we cannot allow unresolved symbols...
+		add_library(lm SHARED IMPORTED)
+		set_target_properties(lm PROPERTIES 
+			IMPORTED_IMPLIB "../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll.a"
+			IMPORTED_LOCATION "../log/build/liblm${IMPORTED_LIB_POSTFIX}.dll"
+		)
+
+		add_library(tools SHARED IMPORTED)
+		set_target_properties(tools PROPERTIES 
+			IMPORTED_IMPLIB "../log/build/libtools${IMPORTED_LIB_POSTFIX}.dll.a"
+			IMPORTED_LOCATION "../log/build/libtools${IMPORTED_LIB_POSTFIX}.dll"
+		)
+
+		target_link_libraries(appenv_shared PRIVATE lm)
+		target_link_libraries(appenv_shared PRIVATE tools)
 	endif()
+
 	if(${BUILD_STATIC})
 		target_compile_definitions(appenv_static PUBLIC -DWINBUILD)
 	endif()
