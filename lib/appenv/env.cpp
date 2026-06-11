@@ -80,7 +80,7 @@ void env::copy_from_app_to_home(
 	
 		if(nullptr!=logger) {
 
-			lm::log(*logger).info()<<"will copy to "<<destination<<std::endl;
+			lm::log(*logger).info()<<"will copy "<<origin<<" to "<<destination<<std::endl;
 			tools::filesystem::copy(origin, destination);
 		};
 	}
