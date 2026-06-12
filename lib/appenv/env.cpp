@@ -43,8 +43,8 @@ env::env(
 #else
 
 	auto curpath=std::filesystem::current_path();
-	exec_dir=curpath.string();
-	user_dir=exec_dir+"/"+_app_name;
+	exec_dir=curpath.string()+"/";
+	user_dir=exec_dir+"/"+_app_name+"/";
 
 #endif
 }
